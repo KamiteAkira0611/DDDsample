@@ -1,0 +1,31 @@
+#!/bin/sh
+
+show_error () {
+  echo "command list is"
+  array=($(ls ./commands | grep -v file))
+  for value in ${array[@]}; do
+    echo - ./command ${value}
+  done
+  exit 1
+}
+
+FLAG=false
+
+if [ $# = 0 ]; then
+    show_error
+fi
+
+array=($(ls ./commands | grep -v file))
+for value in ${array[@]}; do
+  if [ $value == $1 ]; then
+    read COMMAND < ./commands/${value}
+    FLAG=true
+  fi
+done
+
+if $FLAG; then
+  echo ${COMMAND}
+  eval ${COMMAND}
+else
+  show_error
+fi
