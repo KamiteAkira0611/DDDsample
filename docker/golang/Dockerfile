@@ -1,4 +1,4 @@
 FROM golang:1.11
 
-COPY ./backend /app
+COPY ./golang /app
 WORKDIR /app

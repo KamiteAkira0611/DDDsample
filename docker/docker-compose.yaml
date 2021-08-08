@@ -7,7 +7,17 @@ services:
     image: ddd-sample-golang
     container_name: ddd-sample-golang
     volumes:
-      - ../backend:/app
+      - ../golang:/app
     ports:
       - "3000:3000"
+    tty: true
+
+  gcloud:
+    build:
+      context: ../
+      dockerfile: ./docker/gcloud/Dockerfile
+    image: ddd-sample-gcloud
+    container_name: ddd-sample-gcloud
+    volumes:
+      - ../gcloud:/app
     tty: true
