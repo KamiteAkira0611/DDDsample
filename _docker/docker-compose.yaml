@@ -7,7 +7,7 @@ services:
     image: ddd-sample-golang
     container_name: ddd-sample-golang
     volumes:
-      - ../ddd_backend:/app
+      - ../backend:/app
     ports:
       - "3000:3000"
     tty: true
