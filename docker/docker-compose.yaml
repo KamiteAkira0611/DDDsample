@@ -19,6 +19,5 @@ services:
     image: ddd-sample-gcloud
     container_name: ddd-sample-gcloud
     volumes:
-      - ../gcloud/app:/app
-      - ../gcloud/root:/root
+      - ../:/app
     tty: true

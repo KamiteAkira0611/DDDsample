@@ -1,28 +1,33 @@
 package main
 
 import (
-    "github.com/gorilla/mux"
-    "log"
-    "ddd-sample/models"
-
-    "cloud.google.com/go/datastore"
-    "google.golang.org/appengine"
+  "fmt"
+  "log"
+  "net/http"
+  "os"
 )
 
-
 func main() {
-    // ルーターのイニシャライズ
-    r := mux.NewRouter()
+  http.HandleFunc("/", indexHandler)
 
-    books = append(books, Book{ID: "1", Title: "Book one", Author: &Author{FirstName: "Philip", LastName: "Williams"}})
-    books = append(books, Book{ID: "2", Title: "Book Two", Author: &Author{FirstName: "John", LastName: "Johnson"}})
+  port := os.Getenv("PORT")
+  if port == "" {
+          port = "8080"
+          log.Printf("Defaulting to port %s", port)
+  }
 
-    // ルート(エンドポイント)
-    r.HandleFunc("/api/tasks", models.GetTasks).Methods("GET")
-    r.HandleFunc("/api/tasks/{id}", models.GetTask).Methods("GET")
-    r.HandleFunc("/api/tasks", models.CreateTask).Methods("POST")
-    r.HandleFunc("/api/tasks/{id}", models.UpdateTask).Methods("PUT")
-    r.HandleFunc("/api/tasks/{id}", models.DeleteTask).Methods("DELETE")
+  log.Printf("Listening on port %s", port)
+  if err := http.ListenAndServe(":"+port, nil); err != nil {
+          log.Fatal(err)
+  }
+}
 
-    log.Fatal(http.ListenAndServe(":8000", r))
+
+// indexHandler responds to requests with our greeting.
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+  if r.URL.Path != "/" {
+    http.NotFound(w, r)
+    return
+  }
+  fmt.Fprint(w, "Hello, World!")
 }

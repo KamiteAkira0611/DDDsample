@@ -1,1 +1,1 @@
-docker-compose exec gcloud sh
+docker-compose exec gcloud bash
