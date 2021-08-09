@@ -1,1 +1,1 @@
-docker rm -f ddd-sample-golang
+docker rm -f `docker ps -aq`
