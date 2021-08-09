@@ -1,15 +1,15 @@
 package main
 
 import (
-  "fmt"
-  "log"
-  "net/http"
-  "os"
-  "context"
-  "time"
+	"context"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"time"
 
-  "cloud.google.com/go/datastore"
-  "github.com/gin-gonic/gin"
+	"cloud.google.com/go/datastore"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 
   r.GET("/", index)
   r.GET("/task", getTask)
-  r.DELETE("/task/:taskid", deleteTaskk)
+  r.DELETE("/task/:taskid", deleteTask)
   r.POST("/task", createTask)
 
   port = "3000"
@@ -26,10 +26,18 @@ func main() {
 	r.Run(entryPoint)
 }
 
-func index(gc *gin.Context)  {
+func index(gc *gin.Context) {
   gc.String(http.StatusOK, "hello gin!")
 }
 
-func getTask(gc *gin.Context)  {
-  ctx := context.Background()
+func getTask(gc *gin.Context) {
+  gc.String(http.StatusOK, "hello gin!")
+}
+
+func deleteTask(gc *gin.Context) {
+  gc.String(http.StatusOK, "hello gin!")
+}
+
+func createTask(gc *gin.Context) {
+  gc.String(http.StatusOK, "hello gin!")
 }

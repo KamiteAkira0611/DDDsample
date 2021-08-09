@@ -12,7 +12,7 @@ services:
       - "3000:3000"
     links:
       - datastore:datastore
-    command: bash -c "go get github.com/pilu/fresh && fresh -c .fresh.conf"
+    # command: bash -c "go get github.com/pilu/fresh && fresh -c .fresh.conf"
     environment:
       - "DATASTORE_DATASET=test-golang-kamite"
       - "DATASTORE_EMULATOR_HOST=localhost:8081"
@@ -21,6 +21,7 @@ services:
       - "DATASTORE_PROJECT_ID=test-golang-kamite"
     depends_on:
       - datastore
+    tty: true
 
   datastore:
     image: google/cloud-sdk
