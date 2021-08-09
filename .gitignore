@@ -1,1 +1,2 @@
-gcloud/root/*
+google-cloud-sdk/*
+google-cloud-sdk.staging

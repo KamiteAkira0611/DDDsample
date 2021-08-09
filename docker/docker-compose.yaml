@@ -10,7 +10,26 @@ services:
       - ../golang:/app
     ports:
       - "3000:3000"
-    tty: true
+    links:
+      - datastore:datastore
+    command: bash -c "go get github.com/pilu/fresh && fresh -c .fresh.conf"
+    environment:
+      - "DATASTORE_DATASET=test-golang-kamite"
+      - "DATASTORE_EMULATOR_HOST=localhost:8081"
+      - "DATASTORE_EMULATOR_HOST_PATH=localhost:8081/datastore"
+      - "DATASTORE_HOST=http://localhost:8081"
+      - "DATASTORE_PROJECT_ID=test-golang-kamite"
+    depends_on:
+      - datastore
+
+  datastore:
+    image: google/cloud-sdk
+    container_name: ddd-sample-datastore
+    environment:
+      - PROJECT_ID=local-app
+    command: /bin/bash -c "gcloud beta emulators datastore start --host-port 0.0.0.0:8059 --project $$PROJECT_ID --data-dir /data"
+    volumes:
+      - datastore_volume:/data
 
   gcloud:
     build:
@@ -21,3 +40,6 @@ services:
     volumes:
       - ../:/app
     tty: true
+
+volumes:
+  datastore_volume:

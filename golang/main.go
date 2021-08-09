@@ -5,32 +5,31 @@ import (
   "log"
   "net/http"
   "os"
+  "context"
+  "time"
+
+  "cloud.google.com/go/datastore"
+  "github.com/gin-gonic/gin"
 )
 
 func main() {
-  http.HandleFunc("/", indexHandler)
-  http.HandleFunc("/tasks", getTasks)
+  r := gin.Default()
 
-  port := os.Getenv("PORT")
-  if port == "" {
-    port = "3000"
-    log.Printf("Defaulting to port %s", port)
-  }
+  r.GET("/", index)
+  r.GET("/task", getTask)
+  r.DELETE("/task/:taskid", deleteTaskk)
+  r.POST("/task", createTask)
 
-  log.Printf("Listening on port %s", port)
-  if err := http.ListenAndServe(":"+port, nil); err != nil {
-    log.Fatal(err)
-  }
+  port = "3000"
+
+  entryPoint := fmt.Sprintf("0.0.0.0:%s", port)
+	r.Run(entryPoint)
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-  if r.URL.Path != "/" {
-    http.NotFound(w, r)
-    return
-  }
-  fmt.Fprint(w, "Hello, World!")
+func index(gc *gin.Context)  {
+  gc.String(http.StatusOK, "hello gin!")
 }
 
-func getTasks(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprint(w, "Hello, tasks!")
+func getTask(gc *gin.Context)  {
+  ctx := context.Background()
 }
