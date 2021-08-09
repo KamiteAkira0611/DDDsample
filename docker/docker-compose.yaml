@@ -12,7 +12,7 @@ services:
       - "3000:3000"
     links:
       - datastore:datastore
-    command: bash -c "fresh -c .fresh.conf"
+    # command: bash -c "fresh -c .fresh.conf"
     environment:
       - "DATASTORE_DATASET=test-golang-kamite"
       - "DATASTORE_EMULATOR_HOST=localhost:8081"
