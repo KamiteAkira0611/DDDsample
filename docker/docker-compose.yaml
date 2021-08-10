@@ -12,12 +12,9 @@ services:
       - "3000:3000"
     links:
       - datastore:datastore
-    # command: bash -c "fresh -c .fresh.conf"
+    command: bash -c "fresh -c .fresh.conf"
     environment:
-      - "DATASTORE_DATASET=test-golang-kamite"
-      - "DATASTORE_EMULATOR_HOST=localhost:8081"
-      - "DATASTORE_EMULATOR_HOST_PATH=localhost:8081/datastore"
-      - "DATASTORE_HOST=http://localhost:8081"
+      - "DATASTORE_EMULATOR_HOST=datastore:8059"
       - "DATASTORE_PROJECT_ID=test-golang-kamite"
     depends_on:
       - datastore
@@ -28,9 +25,9 @@ services:
     container_name: ddd-sample-datastore
     environment:
       - PROJECT_ID=test-golang-kamite
-    command: /bin/bash -c "gcloud beta emulators datastore start --host-port 0.0.0.0:8081 --project $$PROJECT_ID --data-dir /data"
+    command: /bin/bash -c "gcloud beta emulators datastore start --host-port 0.0.0.0:8059 --project $$PROJECT_ID --data-dir /data"
     volumes:
-      - datastore_volume:/data
+      - ./datastore:/data
 
   gcloud:
     build:
@@ -41,6 +38,3 @@ services:
     volumes:
       - ../:/app
     tty: true
-
-volumes:
-  datastore_volume:

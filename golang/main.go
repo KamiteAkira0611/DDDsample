@@ -1,56 +1,41 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"cloud.google.com/go/datastore"
-	"github.com/gin-gonic/gin"
 )
 
-func main() {
-  r := gin.Default()
+type Task struct {
+  ID       string `datastore:"-" goon:"id"`
+  Body     string `datastore:"Body,noindex"`
+  Done     bool   `datastore:"Done,noindex"`
+}
 
-  r.GET("/", index)
-  r.GET("/task", getTask)
-  r.DELETE("/task/:taskid", deleteTask)
-  r.POST("/task", createTask)
+var datastoreClient *datastore.Client
+
+func main() {
+  http.HandleFunc("/", indexHandler)
+
+  http.HandleFunc("/goon/get_task", getGoonTask)
+
+  http.HandleFunc("/gcloud/get_task", getDSTask)
+  http.HandleFunc("/gcloud/create_task", createDSTask)
 
   port := "3000"
 
   log.Printf("Listening on port %s", port)
-  entryPoint := fmt.Sprintf("0.0.0.0:%s", port)
-	r.Run(entryPoint)
+  if err := http.ListenAndServe(":"+port, nil); err != nil {
+    log.Fatal(err)
+  }
 }
 
-func getDatastoreClient(ctx context.Context) (client *datastore.Client, err error) {
-	projectID := os.Getenv("DATASTORE_PROJECT_ID")
-	client, err = datastore.NewClient(ctx, projectID)
-	return
-}
-
-func index(gc *gin.Context) {
-  gc.String(http.StatusOK, "hello gin!")
-}
-
-func getTask(gc *gin.Context) {
-  ctx := context.Background()
-
-  client, err := getDatastoreClient(ctx)
-  if err != nil {
-		gc.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-  log.Printf("client %s", client)
-}
-
-func deleteTask(gc *gin.Context) {
-  gc.String(http.StatusOK, "hello gin!")
-}
-
-func createTask(gc *gin.Context) {
-  gc.String(http.StatusOK, "hello gin!")
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+  if r.URL.Path != "/" {
+    http.NotFound(w, r)
+    return
+  }
+  fmt.Fprint(w, "Hello, World!")
 }
