@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"cloud.google.com/go/datastore"
+  // "google.golang.org/appengine"
 )
 
 type Task struct {
@@ -16,20 +17,29 @@ type Task struct {
 
 var datastoreClient *datastore.Client
 
-func main() {
+func init()  {
   http.HandleFunc("/", indexHandler)
-
+  
   http.HandleFunc("/goon/get_task", getGoonTask)
-
+  
   http.HandleFunc("/gcloud/get_task", getDSTask)
   http.HandleFunc("/gcloud/create_task", createDSTask)
-
+  
+  http.HandleFunc("/appengine/handle", handle)
+  http.HandleFunc("/appengine/get_task", getDSTask)
+  http.HandleFunc("/appengine/create_task", createDSTask)
   port := "3000"
 
   log.Printf("Listening on port %s", port)
   if err := http.ListenAndServe(":"+port, nil); err != nil {
     log.Fatal(err)
   }
+
+}
+
+func main() {
+  log.Printf("start")
+  // appengine.Main()
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
