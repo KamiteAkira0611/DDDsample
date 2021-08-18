@@ -12,7 +12,6 @@ services:
       - "3000:3000"
     links:
       - datastore:datastore
-    command: bash -c "fresh -c .fresh.conf"
     environment:
       - "DATASTORE_EMULATOR_HOST=datastore:8059"
       - "DATASTORE_PROJECT_ID=test-golang-kamite"
