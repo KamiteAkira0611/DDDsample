@@ -4,14 +4,15 @@ import (
 	"fmt"
 	"net/http"
 
-	"dddsample/task"
+	"dddsample/model"
 
 	"google.golang.org/appengine"
 )
 
 func main() {
   http.HandleFunc("/", handleRoot)
-  http.HandleFunc("/task", task.GetTask)
+  http.HandleFunc("/task", model.GetTask)
+  http.HandleFunc("/task/create", model.CreateTask)
   http.HandleFunc("/task/:taskid", handleRoot)
 
   appengine.Main()
