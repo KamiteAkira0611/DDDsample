@@ -8,32 +8,9 @@ services:
     container_name: ddd-sample-golang
     volumes:
       - ../golang:/app
+    command: /bin/bash -c "source ~/.bashrc && dev_appserver.py --host 0.0.0.0 --admin_host 0.0.0.0 app.yaml"
     ports:
-      - "3000:3000"
-    links:
-      - datastore:datastore
-    environment:
-      - "DATASTORE_EMULATOR_HOST=datastore:8059"
-      - "DATASTORE_PROJECT_ID=test-golang-kamite"
-    depends_on:
-      - datastore
+      - 8080:8080
+      - 8000:8000
     tty: true
-
-  datastore:
-    image: google/cloud-sdk
-    container_name: ddd-sample-datastore
-    environment:
-      - PROJECT_ID=test-golang-kamite
-    command: /bin/bash -c "gcloud beta emulators datastore start --host-port 0.0.0.0:8059 --project $$PROJECT_ID --data-dir /data"
-    volumes:
-      - ./datastore:/data
-
-  gcloud:
-    build:
-      context: ../
-      dockerfile: ./docker/gcloud/Dockerfile
-    image: ddd-sample-gcloud
-    container_name: ddd-sample-gcloud
-    volumes:
-      - ../:/app
-    tty: true
+    stdin_open: true
