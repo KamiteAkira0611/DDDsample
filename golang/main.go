@@ -4,16 +4,22 @@ import (
 	"fmt"
 	"net/http"
 
-  "google.golang.org/appengine"
+	"dddsample/task"
+
+	"google.golang.org/appengine"
 )
 
 func main() {
   http.HandleFunc("/", handleRoot)
+  http.HandleFunc("/task", task.GetTask)
+  http.HandleFunc("/task/:taskid", handleRoot)
+
   appengine.Main()
 }
 
+
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintln(w, "Hello, GAE/go")
+  fmt.Fprintln(w, "Hello, GAE/go handleRoot")
   c := appengine.NewContext(r)
   fmt.Fprintf(w, "[AppID]: %v\n", appengine.AppID(c))
   fmt.Fprintf(w, "[Datacenter]: %v\n", appengine.Datacenter(c))
