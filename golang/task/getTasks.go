@@ -12,6 +12,10 @@ func GetTask(w http.ResponseWriter, r *http.Request)  {
 	
 	n := goon.NewGoon(r)
 	g := &Task{Name: "name"}
-	key, _ := n.Put(g)
-	fmt.Fprintf(w, "<br>PUT 2 - OK, key: %+v", key)
+	key, err := n.Put(g)
+	if err != nil {
+		w.Write([]byte(fmt.Sprintf(`{"error": "Failed save config: %s"}`, err.Error())))
+		return
+	}
+	w.Write([]byte(fmt.Sprintf(`{"key": "%s"}`, key)))
 }
