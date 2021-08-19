@@ -12,7 +12,7 @@ import (
 
 type Task struct {
 	ID int64 `datastore:"-" goon:"id"`
-	Body  string
+	Body string 
 }
 
 func GetTask(w http.ResponseWriter, r *http.Request)  {
@@ -33,7 +33,14 @@ func GetTask(w http.ResponseWriter, r *http.Request)  {
 func CreateTask(w http.ResponseWriter, r *http.Request){
 	fmt.Fprintln(w, "Hello, GAE/go CreateTask")
 	n := goon.NewGoon(r)
-	g := &Task{Body: "name"}
+
+	body := r.FormValue("body")
+	g := &Task{Body: body}
+
+	if body == "" {
+		fmt.Fprintf(w, "invalid request. body is nil")
+		return
+	}
 
 	key, err := n.Put(g)
 	if err != nil {
