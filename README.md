@@ -7,7 +7,7 @@ $ cd docker
 $ ./command start
 ```
 
-### Hot To deploy
+### How To deploy
 
 ```
 $ ./command exec_go
