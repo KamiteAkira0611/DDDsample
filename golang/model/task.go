@@ -76,3 +76,18 @@ func DeleteTask(w http.ResponseWriter, r *http.Request){
 
 	json.NewEncoder(w).Encode(task)
 }
+
+
+func TaskHandler(w http.ResponseWriter, r *http.Request){
+	switch r.Method {
+		case http.MethodGet:
+			fmt.Fprint(w, "GET hello!\n")
+		case http.MethodPost:
+			fmt.Fprint(w, "POST hello!\n")
+		case http.MethodDelete:
+			fmt.Fprint(w, "DELETE hello!\n")
+			
+		default:
+			fmt.Fprint(w, "Method not allowed.\n")
+	}
+}
