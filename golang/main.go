@@ -20,7 +20,7 @@ func main() {
 
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintln(w, "Hello, GAE/go handleRoot")
+  fmt.Fprintln(w, "Hello, GAE/go")
   c := appengine.NewContext(r)
   fmt.Fprintf(w, "[AppID]: %v\n", appengine.AppID(c))
   fmt.Fprintf(w, "[Datacenter]: %v\n", appengine.Datacenter(c))
