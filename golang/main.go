@@ -10,9 +10,8 @@ import (
 )
 
 func main() {
-  http.HandleFunc("/task/create", model.CreateTask)
-  http.HandleFunc("/task/delete/", model.DeleteTask)
-  http.HandleFunc("/task", model.GetTask)
+  http.HandleFunc("/task", model.TasksHandler)
+  http.HandleFunc("/task/", model.TaskHandler)
   http.HandleFunc("/", handleRoot)
 
   appengine.Main()
