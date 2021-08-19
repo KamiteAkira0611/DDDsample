@@ -7,12 +7,6 @@ import (
   "google.golang.org/appengine"
 )
 
-type Task struct {
-  ID       string `datastore:"-" goon:"id"`
-  Body     string `datastore:"Body,noindex"`
-  Done     bool   `datastore:"Done,noindex"`
-}
-
 func main() {
   http.HandleFunc("/", handleRoot)
   appengine.Main()
