@@ -15,6 +15,7 @@ ENV GOPATH /go
 ENV GOBIN /go/bin
 
 # twipをインストール
+# 参考 https://twitchtv.github.io/twirp/docs/install.html
 RUN apt-get install -y protobuf-compiler
 RUN /usr/local/go/bin/go install google.golang.org/protobuf/cmd/protoc-gen-go
 RUN /usr/local/go/bin/go install github.com/twitchtv/twirp/protoc-gen-twirp
