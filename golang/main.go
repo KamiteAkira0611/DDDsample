@@ -21,7 +21,7 @@ func main() {
 
   // twirpHandler := haberdasher.NewHaberdasherServer(&haberdasherserver.Server{}, nil)
   twirpHandler := helloworld.NewHelloWorldServer(&helloworldserver.HelloWorldServer{}, nil)
-  mux.Handle(twirpHandler.PathPrefix(),twirpHandler)
+  mux.Handle(helloworld.HelloWorldPathPrefix, twirpHandler)
   
   port := os.Getenv("PORT")
   if port == "" {
