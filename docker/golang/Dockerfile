@@ -2,8 +2,8 @@ FROM gcr.io/google.com/cloudsdktool/cloud-sdk:latest
 
 SHELL ["/bin/bash", "-c"]
 
-COPY ./golang /go/src
-WORKDIR /go/src
+COPY ./golang /app
+WORKDIR /app
 
 RUN apt-get update && apt-get install -y vim wget unzip
 
@@ -12,7 +12,6 @@ RUN wget https://golang.org/dl/go1.11.13.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go1.11.13.linux-amd64.tar.gz
 ENV goPATH /usr/local/go/bin
 ENV GOPATH /go
-ENV GO111MODULE on
 ENV GOBIN /go/bin
 
 # twipをインストール
