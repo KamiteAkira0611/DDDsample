@@ -1,29 +1,37 @@
 package main
 
 import (
+	"dddsample/internal/helloworldserver"
+	"dddsample/rpc/helloworld"
 	"fmt"
+	"log"
 	"net/http"
-
-	"dddsample/internal/haberdasherserver"
-	"dddsample/model"
-	"dddsample/rpc/haberdasher"
+	"os"
 
 	"google.golang.org/appengine"
 )
 
+type HelloServer struct {}
+
 func main() {
-  http.HandleFunc("/task", model.TasksHandler)
-  http.HandleFunc("/task/", model.TaskHandler)
-  http.HandleFunc("/", handleRoot)
+  // http.HandleFunc("/task", model.TasksHandler)
+  // http.HandleFunc("/task/", model.TaskHandler)
+  // http.HandleFunc("/", handleRoot)
+
+  // twirpHandler := haberdasher.NewHaberdasherServer(&haberdasherserver.Server{}, nil)
+  twirpHandler := helloworld.NewHelloWorldServer(&helloworldserver.HelloWorldServer{}, nil)
+
+  port := os.Getenv("PORT")
+  if port == "" {
+    port = "8080"
+    log.Printf("Defaulting to port %s", port)
+  }
   
-  server := &haberdasherserver.Server{} // implements Haberdasher interface
-  twirpHandler := haberdasher.NewHaberdasherServer(server, nil)
-
-  http.ListenAndServe(":8081", nil)
-  http.ListenAndServe(":8080", twirpHandler)
-  appengine.Main()
+  log.Printf("Listening on port %s", port)
+  if err := http.ListenAndServe(":"+port, twirpHandler); err != nil {
+    log.Fatal(err)
+  }
 }
-
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
   fmt.Fprintln(w, "Hello, GAE/go")

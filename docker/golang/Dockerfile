@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-c"]
 COPY ./golang /app
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y vim wget unzip
+RUN apt-get update && apt-get install -y vim wget unzip lsof
 
 # golangをインストール
 RUN wget https://golang.org/dl/go1.11.13.linux-amd64.tar.gz
