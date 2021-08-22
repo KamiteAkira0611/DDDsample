@@ -7,7 +7,7 @@ services:
     image: ddd-sample-golang
     container_name: ddd-sample-golang
     volumes:
-      - ../golang:/app
+      - ../golang:/go/src
       - ./datastore:/tmp/datastore
     # command: /bin/bash -c "source ~/.bashrc && dev_appserver.py --host 0.0.0.0 --datastore_path=/tmp/datastore/data --admin_host 0.0.0.0 app.yaml"
     ports:

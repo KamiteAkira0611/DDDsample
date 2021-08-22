@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"dddsample/internal/haberdasherserver"
 	"dddsample/model"
-	"dddsample/rpc/haberdasher"
 
 	"google.golang.org/appengine"
 )
@@ -16,9 +14,9 @@ func main() {
   http.HandleFunc("/task/", model.TaskHandler)
   http.HandleFunc("/", handleRoot)
   
-  server := &haberdasherserver.Server{} // implements Haberdasher interface
-  twirpHandler := haberdasher.NewHaberdasherServer(server)
-  http.HandleFunc("/twip", twirpHandler)
+  // server := &haberdasherserver.Server{} // implements Haberdasher interface
+  // twirpHandler := haberdasher.NewHaberdasherServer(server)
+  // http.HandleFunc("/twip", twirpHandler)
   
   appengine.Main()
 }
