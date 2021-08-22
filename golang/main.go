@@ -5,22 +5,22 @@ import (
 	"net/http"
 
 	"dddsample/internal/haberdasherserver"
-	"dddsample/model"
 	"dddsample/rpc/haberdasher"
 
 	"google.golang.org/appengine"
 )
 
 func main() {
-  http.HandleFunc("/task", model.TasksHandler)
-  http.HandleFunc("/task/", model.TaskHandler)
-  http.HandleFunc("/", handleRoot)
+  // http.HandleFunc("/task", model.TasksHandler)
+  // http.HandleFunc("/task/", model.TaskHandler)
+  // http.HandleFunc("/", handleRoot)
+  appengine.Main()
   
   server := &haberdasherserver.Server{} // implements Haberdasher interface
-  twirpHandler := haberdasher.NewHaberdasherServer(server)
-  http.HandleFunc("/twip", twirpHandler)
+  twirpHandler := haberdasher.NewHaberdasherServer(server, nil)
+  http.HandleFunc(haberdasher.HaberdasherPathPrefix, twirpHandler)
   
-  appengine.Main()
+  http.ListenAndServe(":8080", twirpHandler)
 }
 
 
