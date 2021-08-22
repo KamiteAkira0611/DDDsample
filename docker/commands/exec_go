@@ -1,1 +1,1 @@
-docker-compose exec golang bash
+docker compose exec golang bash
