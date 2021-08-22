@@ -14,13 +14,15 @@ import (
 type HelloServer struct {}
 
 func main() {
+  mux := http.NewServeMux()
   // http.HandleFunc("/task", model.TasksHandler)
   // http.HandleFunc("/task/", model.TaskHandler)
   // http.HandleFunc("/", handleRoot)
 
   // twirpHandler := haberdasher.NewHaberdasherServer(&haberdasherserver.Server{}, nil)
   twirpHandler := helloworld.NewHelloWorldServer(&helloworldserver.HelloWorldServer{}, nil)
-
+  mux.Handle(twirpHandler.PathPrefix(),twirpHandler)
+  
   port := os.Getenv("PORT")
   if port == "" {
     port = "8080"
@@ -28,7 +30,7 @@ func main() {
   }
   
   log.Printf("Listening on port %s", port)
-  if err := http.ListenAndServe(":"+port, twirpHandler); err != nil {
+  if err := http.ListenAndServe(":"+port, mux); err != nil {
     log.Fatal(err)
   }
 }
