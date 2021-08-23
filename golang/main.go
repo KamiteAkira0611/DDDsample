@@ -1,7 +1,9 @@
 package main
 
 import (
+	"dddsample/internal/haberdasherserver"
 	"dddsample/internal/helloworldserver"
+	"dddsample/rpc/haberdasher"
 	"dddsample/rpc/helloworld"
 	"fmt"
 	"log"
@@ -19,9 +21,11 @@ func main() {
   // http.HandleFunc("/task/", model.TaskHandler)
   // http.HandleFunc("/", handleRoot)
 
-  // twirpHandler := haberdasher.NewHaberdasherServer(&haberdasherserver.Server{}, nil)
-  twirpHandler := helloworld.NewHelloWorldServer(&helloworldserver.HelloWorldServer{}, nil)
-  mux.Handle(helloworld.HelloWorldPathPrefix, twirpHandler)
+  haberdasherTwirp := haberdasher.NewHaberdasherServer(&haberdasherserver.Server{}, nil)
+  hellowTwip := helloworld.NewHelloWorldServer(&helloworldserver.HelloWorldServer{}, nil)
+
+  mux.Handle(haberdasher.HaberdasherPathPrefix, haberdasherTwirp)
+  mux.Handle(helloworld.HelloWorldPathPrefix, hellowTwip)
   
   port := os.Getenv("PORT")
   if port == "" {
