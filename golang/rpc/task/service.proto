@@ -1,0 +1,35 @@
+syntax = "proto3";
+package twirp.task;
+option go_package = "rpc/task";
+
+service API {
+  rpc ListTask(ListTaskReq) returns (ListTaskResp);
+  // rpc CreateTask(CreateTaskReq) returns (Task);
+  // rpc DeleteTask(DeleteTaskReq) returns (Task);
+}
+
+
+message Task {
+  int64 id = 1;
+  string body = 2;
+}
+
+message ListTaskReq {}
+
+message ListTaskResp {
+  repeated Task tasks = 1;
+}
+
+message CreateTaskReq {
+  string body = 1;
+}
+
+message DeleteTaskReq {
+  int64 id = 1;
+}
+
+message DeleteTaskResp {
+  int64 id = 1;
+  string body = 2;
+}
+

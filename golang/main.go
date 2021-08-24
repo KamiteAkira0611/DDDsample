@@ -3,9 +3,10 @@ package main
 import (
 	"dddsample/internal/haberdasherserver"
 	"dddsample/internal/helloworldserver"
-	"dddsample/model"
+	"dddsample/internal/taskserver"
 	"dddsample/rpc/haberdasher"
 	"dddsample/rpc/helloworld"
+	"dddsample/rpc/task"
 	"fmt"
 	"net/http"
 
@@ -14,15 +15,17 @@ import (
 
 func init(){
   mux := http.NewServeMux()
-  mux.HandleFunc("/task", model.TasksHandler)
-  mux.HandleFunc("/task/", model.TaskHandler)
-  mux.HandleFunc("/", handleRoot)
+  // mux.HandleFunc("/task", model.TasksHandler)
+  // mux.HandleFunc("/task/", model.TaskHandler)
+  // mux.HandleFunc("/", handleRoot)
   
   haberdasherTwirp := haberdasher.NewHaberdasherServer(&haberdasherserver.Server{}, nil)
   hellowTwip := helloworld.NewHelloWorldServer(&helloworldserver.HelloWorldServer{}, nil)
+  taskTwirp := task.NewAPIServer(&taskserver.TaskServer{}, nil)
   
   mux.Handle(haberdasher.HaberdasherPathPrefix, haberdasherTwirp)
-  mux.Handle(helloworld.HelloWorldPathPrefix, hellowTwip)
+  mux.Handle("/hello/", hellowTwip)
+  mux.Handle("/task/", taskTwirp)
   http.Handle("/", mux)
 }
 
