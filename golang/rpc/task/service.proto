@@ -4,8 +4,8 @@ option go_package = "rpc/task";
 
 service API {
   rpc ListTask(ListTaskReq) returns (ListTaskResp);
-  // rpc CreateTask(CreateTaskReq) returns (Task);
-  // rpc DeleteTask(DeleteTaskReq) returns (Task);
+  rpc CreateTask(CreateTaskReq) returns (Task);
+  rpc DeleteTask(DeleteTaskReq) returns (Task);
 }
 
 
