@@ -11,9 +11,10 @@ type TaskServer struct{}
 func (s *TaskServer) ListTask(ctx context.Context, req *task.ListTaskReq) (resp *task.ListTaskResp, err error) {
 	return &task.ListTaskResp{}, nil
 }
-// func (s *TaskServer) CreateTask(ctx context.Context, req *task.ListTaskReq) (resp *task.ListTaskResp, err error) {
-// 	return &task.ListTaskResp{}, nil
-// }
-// func (s *TaskServer) DeleteTask(ctx context.Context, req *task.ListTaskReq) (resp *task.ListTaskResp, err error) {
-// 	return &task.ListTaskResp{}, nil
-// }
+func (s *TaskServer) CreateTask(ctx context.Context, req *task.ListTaskReq) (resp *task.Task, err error) {
+	// req.GetBody()
+	return &task.Task{}, nil
+}
+func (s *TaskServer) DeleteTask(ctx context.Context, req *task.ListTaskReq) (resp *task.Task, err error) {
+	return &task.Task{}, nil
+}
