@@ -17,7 +17,7 @@ message Task {
 message ListTaskReq {}
 
 message ListTaskResp {
-  repeated Task tasks = 1;
+  repeated tasks = 1;
 }
 
 message CreateTaskReq {
