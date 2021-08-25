@@ -45,13 +45,13 @@ func TasksHandler(w http.ResponseWriter, r *http.Request){
 				return
 			}
 		
-			key, err := n.Put(g)
+			_, err := n.Put(g)
 			if err != nil {
 				w.WriteHeader(http.StatusBadRequest)
 				fmt.Fprintf(w, "invalid request. %s", err.Error())
 				return
 			}
-			json.NewEncoder(w).Encode(key)
+			json.NewEncoder(w).Encode(g)
 
 		default:
 			fmt.Fprint(w, "Method not allowed.\n")

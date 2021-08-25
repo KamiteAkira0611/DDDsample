@@ -23,17 +23,17 @@ type Task struct {
 func (s *TaskServer) ListTask(ctx context.Context, req *task.ListTaskReq) (resp *task.ListTaskResp, err error) {
 
 	n := goon.FromContext(ctx)
-	tasks := []Task{}
+	q_tasks := []Task{}
 	q := datastore.NewQuery("Task")
 
-	_, err = n.GetAll(q, &tasks)
+	_, err = n.GetAll(q, &q_tasks)
 	if err != nil {
 		return nil, twirp.NewError(twirp.Internal, err.Error())
 	}
 
 	var items []*task.Task
 
-	for _, s := range tasks {
+	for _, s := range q_tasks {
 		item := task.Task{
 			Id: s.ID,
 			Body: s.Body,
@@ -46,27 +46,42 @@ func (s *TaskServer) ListTask(ctx context.Context, req *task.ListTaskReq) (resp 
 }
 
 func (s *TaskServer) CreateTask(ctx context.Context, req *task.CreateTaskReq) (resp *task.Task, err error) {
-	// n := goon.FromContext(ctx)
-	// body := req.GetBody()
+	n := goon.FromContext(ctx)
+	body := req.GetBody()
+	if body == "" {
+		return nil, twirp.NewError(twirp.Internal, "body is undefined")
+	}
 
-	// g := &Task{Body: body}
+	q_task := &Task{Body: body}
 
-	// key, err := n.Put(g)
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	fmt.Fprintf(w, "invalid request. %s", err.Error())
-	// 	return
-	// }
+	_, err = n.Put(q_task)
+	if err != nil {
+		return nil, twirp.NewError(twirp.Internal, err.Error())
+	}
 	
 	return &task.Task{
-		Id: 111,
-		Body: "createTask " + req.GetBody(),
+		Id: q_task.ID,
+		Body: q_task.Body,
 	}, nil
 }
 
 func (s *TaskServer) DeleteTask(ctx context.Context, req *task.DeleteTaskReq) (resp *task.Task, err error) {
+	n := goon.FromContext(ctx)
+	id := req.GetId()
+
+	q_task := &Task{ID: id}
+	getErr := n.Get(q_task)
+	if getErr != nil {
+		return nil, twirp.NewError(twirp.Internal, getErr.Error())
+	}
+
+	deleteErr := n.Delete(q_task)
+	if deleteErr != nil {
+		return nil, twirp.NewError(twirp.Internal, deleteErr.Error())
+	}
+
 	return &task.Task{
-		Id: req.GetId(),
-		Body: "deleteTask",
+		Id: q_task.ID,
+		Body: q_task.Body,
 	}, nil
 }
